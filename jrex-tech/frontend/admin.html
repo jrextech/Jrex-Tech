@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — JREX Tech</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="images/jrex.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-row">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">JX</span>
+      <span>
+        <span class="brand-text"><span class="jrex">JREX</span> <span class="tech">Tech</span></span>
+        <span class="brand-tagline">Innovation Beyond Expectations</span>
+      </span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false"><span></span></button>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-divider"></li>
+        <li data-auth="guest"><a href="login.html">Log In</a></li>
+        <li data-auth="guest"><a href="signup.html" class="nav-cta">Sign Up</a></li>
+        <li data-auth="user"><a href="dashboard.html">Dashboard</a></li>
+        <li data-auth="admin"><a href="admin.html" class="active">Admin</a></li>
+        <li data-auth="user"><a href="#" data-logout>Log Out</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div id="guest-notice" class="wrap admin-denied" style="display:none;">
+    <div class="icon" style="margin:0 auto 14px; width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(47,139,212,0.14), rgba(30,111,176,0.06));color:var(--blue-600);font-size:22px;">🔒</div>
+    <h1 style="font-size:26px">Log in to continue</h1>
+    <p style="max-width:46ch;margin:0 auto 18px">This page is for JREX Tech staff. Log in with an admin account to view it.</p>
+    <a href="login.html?redirect=admin.html" class="btn btn-primary">Log In</a>
+  </div>
+
+  <div id="denied-notice" class="wrap admin-denied" style="display:none;">
+    <div class="icon" style="margin:0 auto 14px; width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(192,57,43,0.1);color:#9a2c22;font-size:22px;">⛔</div>
+    <h1 style="font-size:26px">Admin access required</h1>
+    <p style="max-width:46ch;margin:0 auto 18px">Your account doesn't have admin access. If this is a mistake, ask whoever manages the site to add your email to <code>ADMIN_EMAILS</code>.</p>
+    <a href="dashboard.html" class="btn btn-dark">Back to My Dashboard</a>
+  </div>
+
+  <div id="admin-content" style="display:none;">
+    <section style="padding-top:56px; padding-bottom:0;">
+      <div class="wrap">
+        <div class="dash-header">
+          <div>
+            <div class="eyebrow">Staff Only</div>
+            <h1>Admin Dashboard</h1>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-card"><div class="num" id="stat-users">–</div><div class="label">Total Users</div></div>
+          <div class="stat-card"><div class="num" id="stat-orders">–</div><div class="label">Service Requests</div></div>
+          <div class="stat-card"><div class="num" id="stat-progress">–</div><div class="label">In Progress</div></div>
+          <div class="stat-card"><div class="num" id="stat-messages">–</div><div class="label">Contact Messages</div></div>
+        </div>
+
+        <div class="admin-tabs">
+          <button class="admin-tab active" data-tab="requests">Service Requests</button>
+          <button class="admin-tab" data-tab="messages">Contact Messages</button>
+          <button class="admin-tab" data-tab="users">Users</button>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-top:0;">
+      <div class="wrap">
+
+        <div class="admin-panel active" id="panel-requests">
+          <div id="requests-loading" style="text-align:center; padding:40px; color:var(--ink-soft)">Loading requests…</div>
+          <div id="requests-empty" class="empty-state" style="display:none;">
+            <div class="icon">🗂️</div>
+            <h3 style="margin-bottom:6px">No requests yet</h3>
+            <p>Submitted service requests will show up here.</p>
+          </div>
+          <div id="requests-list" class="orders-list"></div>
+        </div>
+
+        <div class="admin-panel" id="panel-messages">
+          <div id="messages-loading" style="text-align:center; padding:40px; color:var(--ink-soft)">Loading messages…</div>
+          <div id="messages-empty" class="empty-state" style="display:none;">
+            <div class="icon">✉️</div>
+            <h3 style="margin-bottom:6px">No messages yet</h3>
+            <p>Contact form submissions will show up here.</p>
+          </div>
+          <div class="table-scroll" id="messages-table-wrap" style="display:none;">
+            <table class="admin-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Received</th></tr></thead>
+              <tbody id="messages-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="admin-panel" id="panel-users">
+          <div id="users-loading" style="text-align:center; padding:40px; color:var(--ink-soft)">Loading users…</div>
+          <div class="table-scroll" id="users-table-wrap" style="display:none;">
+            <table class="admin-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th></tr></thead>
+              <tbody id="users-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <span class="brand-text"><span class="jrex">JREX</span> <span class="tech">Tech</span></span>
+      <p style="margin-top:12px">A technology studio in Benin City, Nigeria, building websites, software, and brand identities for businesses that want to grow.</p>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html#web-digital-development">Web &amp; Digital Development</a></li>
+        <li><a href="services.html#software-engineering">Software Engineering</a></li>
+        <li><a href="services.html#brand-identity">Brand Identity</a></li>
+        <li><a href="services.html#cybersecurity-solutions">Cybersecurity</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li>Benin City, Edo State, Nigeria</li>
+        <li>+234 801 234 5678</li>
+        <li>info@jrextech.com</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© <span id="year"></span> Jrex Tech. All rights reserved.</span>
+    <span>Designed &amp; built by Jrex Tech</span>
+  </div>
+</footer>
+
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var PROJECT_LABELS = {
+    "web-digital-development": "Web & Digital Development",
+    "software-engineering": "Software Engineering",
+    "ui-ux-design": "UI/UX & Product Design",
+    "brand-identity": "Brand Identity & Creative Design",
+    "it-infrastructure-support": "IT Infrastructure & Support",
+    "digital-marketing-growth": "Digital Marketing & Growth",
+    "data-database-management": "Data & Database Management",
+    "cybersecurity-solutions": "Cybersecurity Solutions",
+    "technology-consulting": "Technology Consulting",
+    "not-sure": "Not Sure Yet"
+  };
+  var BUDGET_LABELS = {
+    "under-100k": "Under ₦100,000",
+    "100k-300k": "₦100,000 – ₦300,000",
+    "300k-700k": "₦300,000 – ₦700,000",
+    "700k-plus": "₦700,000+",
+    "not-sure": "Budget not set"
+  };
+
+  // --- Access gate ---------------------------------------------------
+  if (!window.JrexAuth || !window.JrexAuth.isLoggedIn()) {
+    document.getElementById("guest-notice").style.display = "block";
+    return;
+  }
+  if (!window.JrexAuth.isAdmin()) {
+    document.getElementById("denied-notice").style.display = "block";
+    return;
+  }
+  document.getElementById("admin-content").style.display = "block";
+
+  function formatDate(iso) {
+    try { return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }); }
+    catch (e) { return iso; }
+  }
+  function escapeHtml(str) {
+    var div = document.createElement("div");
+    div.textContent = str == null ? "" : str;
+    return div.innerHTML;
+  }
+
+  // --- Tabs ------------------------------------------------------------
+  document.querySelectorAll(".admin-tab").forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      document.querySelectorAll(".admin-tab").forEach(function (t) { t.classList.remove("active"); });
+      document.querySelectorAll(".admin-panel").forEach(function (p) { p.classList.remove("active"); });
+      tab.classList.add("active");
+      document.getElementById("panel-" + tab.dataset.tab).classList.add("active");
+    });
+  });
+
+  // --- Stats -------------------------------------------------------------
+  window.JrexAuth.authFetch("/api/admin/stats")
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      document.getElementById("stat-users").textContent = data.totalUsers;
+      document.getElementById("stat-orders").textContent = data.totalOrders;
+      document.getElementById("stat-progress").textContent = (data.byStatus && data.byStatus["in-progress"]) || 0;
+      document.getElementById("stat-messages").textContent = data.totalMessages;
+    })
+    .catch(function () { /* stat cards just stay at "–" */ });
+
+  // --- Service requests ----------------------------------------------
+  function renderRequest(order) {
+    var el = document.createElement("div");
+    el.className = "order-row";
+    el.innerHTML =
+      '<div>' +
+        '<h3></h3>' +
+        '<div class="meta"></div>' +
+        '<p class="desc"></p>' +
+      '</div>' +
+      '<select class="status-select">' +
+        '<option value="new">New</option>' +
+        '<option value="in-progress">In Progress</option>' +
+        '<option value="done">Completed</option>' +
+      '</select>';
+
+    el.querySelector("h3").textContent = PROJECT_LABELS[order.projectType] || "Project";
+    el.querySelector(".meta").textContent =
+      (order.userName || "Unknown") + " · " + (order.userEmail || "") + " · Submitted " + formatDate(order.createdAt) +
+      " · " + (BUDGET_LABELS[order.budget] || "");
+    el.querySelector(".desc").textContent = order.description;
+
+    var select = el.querySelector(".status-select");
+    select.value = order.status;
+    select.className = "status-select status-" + order.status;
+    select.addEventListener("change", function () {
+      var newStatus = select.value;
+      select.disabled = true;
+      window.JrexAuth.authFetch("/api/admin/orders/" + order.id, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus })
+      })
+        .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+        .then(function (result) {
+          if (result.ok) {
+            select.className = "status-select status-" + newStatus;
+          } else {
+            select.value = order.status; // revert on failure
+            alert((result.data && result.data.error) || "Couldn't update status.");
+          }
+        })
+        .catch(function () {
+          select.value = order.status;
+          alert("Couldn't reach the server. Please try again.");
+        })
+        .finally(function () { select.disabled = false; });
+    });
+
+    return el;
+  }
+
+  window.JrexAuth.authFetch("/api/admin/orders")
+    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+    .then(function (result) {
+      document.getElementById("requests-loading").style.display = "none";
+      if (!result.ok) return;
+      var orders = result.data.orders || [];
+      if (!orders.length) { document.getElementById("requests-empty").style.display = "block"; return; }
+      var list = document.getElementById("requests-list");
+      orders.forEach(function (order) { list.appendChild(renderRequest(order)); });
+    })
+    .catch(function () {
+      document.getElementById("requests-loading").textContent = "Couldn't load requests. Please refresh the page.";
+    });
+
+  // --- Contact messages -------------------------------------------------
+  window.JrexAuth.authFetch("/api/admin/contacts")
+    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+    .then(function (result) {
+      document.getElementById("messages-loading").style.display = "none";
+      if (!result.ok) return;
+      var submissions = result.data.submissions || [];
+      if (!submissions.length) { document.getElementById("messages-empty").style.display = "block"; return; }
+      var tbody = document.getElementById("messages-tbody");
+      submissions.forEach(function (s) {
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td>" + escapeHtml(s.name) + "</td>" +
+          "<td class=\"muted\">" + escapeHtml(s.email) + "</td>" +
+          "<td>" + escapeHtml(s.subject) + "</td>" +
+          "<td class=\"muted\" style=\"max-width:340px\">" + escapeHtml(s.message) + "</td>" +
+          "<td class=\"muted\">" + formatDate(s.submittedAt) + "</td>";
+        tbody.appendChild(tr);
+      });
+      document.getElementById("messages-table-wrap").style.display = "block";
+    })
+    .catch(function () {
+      document.getElementById("messages-loading").textContent = "Couldn't load messages. Please refresh the page.";
+    });
+
+  // --- Users --------------------------------------------------------------
+  window.JrexAuth.authFetch("/api/admin/users")
+    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+    .then(function (result) {
+      document.getElementById("users-loading").style.display = "none";
+      if (!result.ok) return;
+      var users = result.data.users || [];
+      var tbody = document.getElementById("users-tbody");
+      users.forEach(function (u) {
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td>" + escapeHtml(u.name) + "</td>" +
+          "<td class=\"muted\">" + escapeHtml(u.email) + "</td>" +
+          "<td><span class=\"role-badge " + (u.role === "admin" ? "admin" : "user") + "\">" + escapeHtml(u.role) + "</span></td>" +
+          "<td class=\"muted\">" + formatDate(u.createdAt) + "</td>";
+        tbody.appendChild(tr);
+      });
+      document.getElementById("users-table-wrap").style.display = "block";
+    })
+    .catch(function () {
+      document.getElementById("users-loading").textContent = "Couldn't load users. Please refresh the page.";
+    });
+})();
+</script>
+</body>
+</html>
