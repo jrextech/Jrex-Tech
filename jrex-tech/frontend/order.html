@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request a Project — JREX Tech</title>
+<meta name="description" content="Tell JREX Tech what you want to build — a website, software, mobile app, or brand identity — and get a plan back from our team.">
+<link rel="icon" href="images/jrex.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-row">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">JX</span>
+      <span>
+        <span class="brand-text"><span class="jrex">JREX</span> <span class="tech">Tech</span></span>
+        <span class="brand-tagline">Innovation Beyond Expectations</span>
+      </span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false"><span></span></button>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-divider"></li>
+        <li data-auth="guest"><a href="login.html">Log In</a></li>
+        <li data-auth="guest"><a href="signup.html" class="nav-cta">Sign Up</a></li>
+        <li data-auth="user"><a href="dashboard.html">Dashboard</a></li>
+        <li data-auth="admin"><a href="admin.html">Admin</a></li>
+        <li data-auth="user"><a href="#" data-logout>Log Out</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow">Request a Project</div>
+      <h1>Tell us what you want to build.</h1>
+      <p>Fill this out and it lands straight in our queue — we'll follow up with a plan and a quote, usually within one business day.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap" style="max-width:760px">
+
+      <div id="guest-notice" class="card reveal" style="display:none; text-align:center; margin-bottom:32px;">
+        <div class="icon" style="margin:0 auto 14px">🔒</div>
+        <h3>Log in to request a project</h3>
+        <p>Create a free account (or log back in) so we can track your request and keep you updated.</p>
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:16px; flex-wrap:wrap">
+          <a href="login.html?redirect=order.html" class="btn btn-dark">Log In</a>
+          <a href="signup.html?redirect=order.html" class="btn btn-primary">Sign Up</a>
+        </div>
+      </div>
+
+      <form id="order-form" class="form-card reveal" novalidate>
+
+        <div class="field">
+          <label>Which service do you need?</label>
+          <div class="service-picker" id="service-picker">
+            <div class="service-option">
+              <input type="radio" name="projectType" id="pt-web" value="web-digital-development">
+              <label for="pt-web"><span class="name">Web &amp; Digital Development</span><span class="hint">Website, store, web app</span></label>
+            </div>
+            <div class="service-option">
+              <input type="radio" name="projectType" id="pt-software" value="software-engineering">
+              <label for="pt-software"><span class="name">Software Engineering</span><span class="hint">Custom tools, apps, APIs</span></label>
+            </div>
+            <div class="service-option">
+              <input type="radio" name="projectType" id="pt-uiux" value="ui-ux-design">
+              <label for="pt-uiux"><span class="name">UI/UX &amp; Product Design</span><span class="hint">Research, prototypes, testing</span></label>
+            </div>
+            <div class="service-option">
+              <input type="radio" name="projectType" id="pt-brand" value="brand-identity">
+              <label for="pt-brand"><span class="name">Brand Identity &amp; Design</span><span class="hint">Logo, colors, guide</span></label>
+            </div>
+            <div class="service-option">
+              <input type="radio" name="projectType" id="pt-infra" value="it-infrastructure-support">
+              <label for="pt-infra"><span class="name">IT Infrastructure &amp; Support</span><span class="hint">Network, hosting, support</span></label>
+            </div>
+            <div class="service-option">
+              <input type="radio" name="projectType" id="pt-marketing" value="digital-marketing-growth">
+              <label for="pt-marketing"><span class="name">Digital Marketing &amp; Growth</span><span class="hint">SEO, social, ads</span></label>
+            </div>
+            <div class="service-option">
+              <input type="radio" name="projectType" id="pt-data" value="data-database-management">
+              <label for="pt-data"><span class="name">Data &amp; Database Management</span><span class="hint">Design, migration, reporting</span></label>
+            </div>
+            <div class="service-option">
+              <input type="radio" name="projectType" id="pt-security" value="cybersecurity-solutions">
+              <label for="pt-security"><span class="name">Cybersecurity Solutions</span><span class="hint">Audits, testing, protection</span></label>
+            </div>
+            <div class="service-option">
+              <input type="radio" name="projectType" id="pt-consulting" value="technology-consulting">
+              <label for="pt-consulting"><span class="name">Technology Consulting</span><span class="hint">Strategy &amp; roadmaps</span></label>
+            </div>
+            <div class="service-option">
+              <input type="radio" name="projectType" id="pt-unsure" value="not-sure">
+              <label for="pt-unsure"><span class="name">Not Sure Yet</span><span class="hint">Help me figure it out</span></label>
+            </div>
+          </div>
+          <p class="error" id="pt-error">Please choose the service you need.</p>
+        </div>
+
+        <div class="field">
+          <label for="budget">Budget Range (₦)</label>
+          <select id="budget" name="budget" required>
+            <option value="" disabled selected>Select a range…</option>
+            <option value="under-100k">Under ₦100,000</option>
+            <option value="100k-300k">₦100,000 – ₦300,000</option>
+            <option value="300k-700k">₦300,000 – ₦700,000</option>
+            <option value="700k-plus">₦700,000+</option>
+            <option value="not-sure">Not sure yet</option>
+          </select>
+          <p class="error">Please choose a budget range.</p>
+        </div>
+
+        <div class="field">
+          <label for="pagesNeeded">Key Requirements <span style="font-weight:400; color:var(--ink-soft)">(optional)</span></label>
+          <input type="text" id="pagesNeeded" name="pagesNeeded" placeholder="e.g. Home, About, Shop, Checkout — or key features/requirements for your service">
+        </div>
+
+        <div class="field">
+          <label for="timeline">Target Timeline <span style="font-weight:400; color:var(--ink-soft)">(optional)</span></label>
+          <input type="text" id="timeline" name="timeline" placeholder="e.g. Ready in 4 weeks, no rush, launching in June">
+        </div>
+
+        <div class="field">
+          <label for="description">Tell us about the project</label>
+          <textarea id="description" name="description" placeholder="What's this for, who's it for, and what should it be able to do?" required></textarea>
+          <p class="error">Please describe your project in a bit more detail (15+ characters).</p>
+        </div>
+
+        <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top:6px">Submit Request</button>
+      </form>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <span class="brand-text"><span class="jrex">JREX</span> <span class="tech">Tech</span></span>
+      <p style="margin-top:12px">A technology studio in Benin City, Nigeria, building websites, software, and brand identities for businesses that want to grow.</p>
+      <div class="social-row" aria-label="Social links">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Twitter / X">x</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="Instagram">ig</a>
+      </div>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html#web-digital-development">Web &amp; Digital Development</a></li>
+        <li><a href="services.html#software-engineering">Software Engineering</a></li>
+        <li><a href="services.html#brand-identity">Brand Identity</a></li>
+        <li><a href="services.html#cybersecurity-solutions">Cybersecurity</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li>Benin City, Edo State, Nigeria</li>
+        <li>+234 801 234 5678</li>
+        <li>info@jrextech.com</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© <span id="year"></span> Jrex Tech. All rights reserved.</span>
+    <span>Designed &amp; built by Jrex Tech</span>
+  </div>
+</footer>
+
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script>
+(function () {
+  "use strict";
+  var form = document.getElementById("order-form");
+  var guestNotice = document.getElementById("guest-notice");
+  var statusBox = document.getElementById("form-status");
+  var submitBtn = form.querySelector('button[type="submit"]');
+
+  if (!window.JrexAuth || !window.JrexAuth.isLoggedIn()) {
+    form.style.display = "none";
+    guestNotice.style.display = "block";
+  }
+
+  // Preselect a service if the link came from the Services page,
+  // e.g. order.html?service=mobile-app
+  var preselect = new URLSearchParams(window.location.search).get("service");
+  if (preselect) {
+    var radio = form.querySelector('input[name="projectType"][value="' + preselect + '"]');
+    if (radio) radio.checked = true;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    statusBox.className = "form-status";
+
+    var projectType = form.querySelector('input[name="projectType"]:checked');
+    var budget = form.budget.value;
+    var description = form.description.value.trim();
+
+    var valid = true;
+    document.getElementById("pt-error").style.display = "none";
+    if (!projectType) { document.getElementById("pt-error").style.display = "block"; valid = false; }
+
+    var budgetField = form.budget.closest(".field");
+    if (!budget) { budgetField.classList.add("invalid"); valid = false; } else { budgetField.classList.remove("invalid"); }
+
+    var descField = form.description.closest(".field");
+    if (description.length < 15) { descField.classList.add("invalid"); valid = false; } else { descField.classList.remove("invalid"); }
+
+    if (!valid) return;
+
+    var payload = {
+      projectType: projectType.value,
+      budget: budget,
+      pagesNeeded: form.pagesNeeded.value.trim(),
+      timeline: form.timeline.value.trim(),
+      description: description
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting…";
+
+    window.JrexAuth.authFetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+      .then(function (result) {
+        if (result.ok) {
+          statusBox.className = "form-status show ok";
+          statusBox.textContent = "Request received! Redirecting to your dashboard…";
+          setTimeout(function () { window.location.href = "dashboard.html"; }, 900);
+        } else {
+          statusBox.className = "form-status show err";
+          statusBox.textContent = (result.data && result.data.error) || "Something went wrong. Please try again.";
+        }
+      })
+      .catch(function () {
+        statusBox.className = "form-status show err";
+        statusBox.textContent = "We couldn't reach the server. Please try again shortly.";
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Request";
+      });
+  });
+})();
+</script>
+</body>
+</html>
