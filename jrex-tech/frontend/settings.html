@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — JREX Tech</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="images/jrex.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-row">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">JX</span>
+      <span>
+        <span class="brand-text"><span class="jrex">JREX</span> <span class="tech">Tech</span></span>
+        <span class="brand-tagline">Innovation Beyond Expectations</span>
+      </span>
+    </a>
+    <div class="nav-quick">
+      <a href="login.html" class="quick-login" data-auth="guest">Log In</a>
+      <a href="signup.html" class="quick-signup" data-auth="guest">Sign Up</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false"><span></span></button>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-divider"></li>
+        <li data-auth="user"><a href="dashboard.html">Dashboard</a></li>
+        <li data-auth="admin"><a href="admin.html">Admin</a></li>
+        <li data-auth="user"><a href="settings.html" class="active">Settings</a></li>
+        <li data-auth="user"><a href="#" data-logout>Log Out</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div id="guest-notice" class="wrap" style="display:none; padding:96px 24px; text-align:center;">
+    <div class="icon" style="margin:0 auto 14px; width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(47,139,212,0.14), rgba(30,111,176,0.06));color:var(--blue-600);font-size:22px;">🔒</div>
+    <h1 style="font-size:26px">Log in to see your settings</h1>
+    <p style="max-width:46ch;margin:0 auto 18px">Account settings are tied to your login.</p>
+    <a href="login.html?redirect=settings.html" class="btn btn-primary">Log In</a>
+  </div>
+
+  <div id="settings-content" style="display:none;">
+    <section class="page-hero" style="padding-bottom:48px;">
+      <div class="wrap">
+        <div class="eyebrow">Your Account</div>
+        <h1>Settings</h1>
+        <p>Update your details, change your password, and control what we email you about.</p>
+      </div>
+    </section>
+
+    <section style="padding-top:48px">
+      <div class="wrap">
+        <div class="settings-grid">
+
+          <div class="card settings-card reveal">
+            <h3>Profile</h3>
+            <p>Your basic account details.</p>
+            <form id="profile-form" novalidate>
+              <div class="field">
+                <label for="profile-name">Full Name</label>
+                <input type="text" id="profile-name" name="name" required>
+              </div>
+              <div class="field">
+                <label for="profile-email">Email Address</label>
+                <input type="email" id="profile-email" disabled>
+                <p class="field-hint">Your email is your login — contact us if you need to change it.</p>
+              </div>
+              <div id="profile-status" class="settings-status" role="status" aria-live="polite"></div>
+              <button type="submit" class="btn btn-dark" style="margin-top:6px">Save Changes</button>
+            </form>
+          </div>
+
+          <div class="card settings-card reveal">
+            <h3>Change Password</h3>
+            <p>Choose a new password for your account.</p>
+            <form id="password-form" novalidate>
+              <div class="field">
+                <label for="current-password">Current Password</label>
+                <input type="password" id="current-password" name="currentPassword" required autocomplete="current-password">
+              </div>
+              <div class="field">
+                <label for="new-password">New Password</label>
+                <input type="password" id="new-password" name="newPassword" required autocomplete="new-password" minlength="8">
+                <p class="field-hint">At least 8 characters.</p>
+              </div>
+              <div class="field">
+                <label for="confirm-password">Confirm New Password</label>
+                <input type="password" id="confirm-password" required autocomplete="new-password">
+              </div>
+              <div id="password-status" class="settings-status" role="status" aria-live="polite"></div>
+              <button type="submit" class="btn btn-dark" style="margin-top:6px">Update Password</button>
+            </form>
+          </div>
+
+          <div class="card settings-card reveal">
+            <h3>Notifications</h3>
+            <p>Choose what we email you about.</p>
+            <div class="settings-row">
+              <div>
+                <div class="label">Request status updates</div>
+                <div class="hint">Emails when a request you submitted is accepted or declined.</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="notif-toggle" checked>
+                <span class="track"></span>
+              </label>
+            </div>
+            <div id="notif-status" class="settings-status" role="status" aria-live="polite"></div>
+          </div>
+
+          <div class="card settings-card reveal">
+            <h3>Account</h3>
+            <p>Signed in as <strong data-auth-name>your account</strong>, role: <span id="account-role" class="role-badge user">user</span>.</p>
+            <button id="logout-btn" class="btn btn-ghost" style="background:#fff;color:var(--navy-900);border:1px solid var(--line)">Log Out</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <span class="brand-text"><span class="jrex">JREX</span> <span class="tech">Tech</span></span>
+      <p style="margin-top:12px">A technology studio in Benin City, Nigeria, building websites, software, and brand identities for businesses that want to grow.</p>
+      <div class="social-row" aria-label="Social links">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Twitter / X">x</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="Instagram">ig</a>
+      </div>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul>
+        <li><a href="services.html#web-digital-development">Web &amp; Digital Development</a></li>
+        <li><a href="services.html#software-engineering">Software Engineering</a></li>
+        <li><a href="services.html#brand-identity">Brand Identity</a></li>
+        <li><a href="services.html#cybersecurity-solutions">Cybersecurity</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="refund.html">Refund Policy</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li>Benin City, Edo State, Nigeria</li>
+        <li>+234 801 234 5678</li>
+        <li>info@jrextech.com</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© <span id="year"></span> Jrex Tech. All rights reserved.</span>
+    <span>Designed &amp; built by Jrex Tech</span>
+  </div>
+</footer>
+
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  if (!window.JrexAuth || !window.JrexAuth.isLoggedIn()) {
+    document.getElementById("guest-notice").style.display = "block";
+    return;
+  }
+  document.getElementById("settings-content").style.display = "block";
+
+  var user = window.JrexAuth.getUser();
+  document.getElementById("profile-name").value = user.name || "";
+  document.getElementById("profile-email").value = user.email || "";
+  document.getElementById("notif-toggle").checked = user.emailNotifications !== false;
+  var roleBadge = document.getElementById("account-role");
+  roleBadge.textContent = user.role === "admin" ? "admin" : "user";
+  roleBadge.className = "role-badge " + (user.role === "admin" ? "admin" : "user");
+
+  document.getElementById("logout-btn").addEventListener("click", function () {
+    window.JrexAuth.clearSession();
+    window.location.href = "index.html";
+  });
+
+  function showStatus(el, kind, message) {
+    el.className = "settings-status show " + kind;
+    el.textContent = message;
+  }
+
+  // --- Profile form ---
+  var profileForm = document.getElementById("profile-form");
+  profileForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var status = document.getElementById("profile-status");
+    var name = document.getElementById("profile-name").value.trim();
+    if (name.length < 2) { showStatus(status, "err", "Please enter your full name."); return; }
+
+    var btn = profileForm.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    window.JrexAuth.authFetch("/api/auth/me", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name })
+    })
+      .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+      .then(function (result) {
+        if (result.ok) {
+          window.JrexAuth.updateUser({ name: result.data.user.name });
+          showStatus(status, "ok", "Profile updated.");
+        } else {
+          showStatus(status, "err", (result.data && result.data.error) || "Couldn't update profile.");
+        }
+      })
+      .catch(function () { showStatus(status, "err", "Couldn't reach the server. Please try again."); })
+      .finally(function () { btn.disabled = false; });
+  });
+
+  // --- Password form ---
+  var passwordForm = document.getElementById("password-form");
+  passwordForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var status = document.getElementById("password-status");
+    var current = document.getElementById("current-password").value;
+    var next = document.getElementById("new-password").value;
+    var confirm = document.getElementById("confirm-password").value;
+
+    if (next.length < 8) { showStatus(status, "err", "New password must be at least 8 characters."); return; }
+    if (next !== confirm) { showStatus(status, "err", "New password and confirmation don't match."); return; }
+
+    var btn = passwordForm.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    window.JrexAuth.authFetch("/api/auth/change-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ currentPassword: current, newPassword: next })
+    })
+      .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+      .then(function (result) {
+        if (result.ok) {
+          showStatus(status, "ok", "Password updated.");
+          passwordForm.reset();
+        } else {
+          showStatus(status, "err", (result.data && result.data.error) || "Couldn't update password.");
+        }
+      })
+      .catch(function () { showStatus(status, "err", "Couldn't reach the server. Please try again."); })
+      .finally(function () { btn.disabled = false; });
+  });
+
+  // --- Notification toggle ---
+  var notifToggle = document.getElementById("notif-toggle");
+  notifToggle.addEventListener("change", function () {
+    var status = document.getElementById("notif-status");
+    notifToggle.disabled = true;
+    window.JrexAuth.authFetch("/api/auth/me", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ emailNotifications: notifToggle.checked })
+    })
+      .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+      .then(function (result) {
+        if (result.ok) {
+          window.JrexAuth.updateUser({ emailNotifications: result.data.user.emailNotifications });
+          showStatus(status, "ok", notifToggle.checked ? "You'll receive status update emails." : "Status update emails turned off.");
+        } else {
+          notifToggle.checked = !notifToggle.checked;
+          showStatus(status, "err", (result.data && result.data.error) || "Couldn't save preference.");
+        }
+      })
+      .catch(function () {
+        notifToggle.checked = !notifToggle.checked;
+        showStatus(status, "err", "Couldn't reach the server. Please try again.");
+      })
+      .finally(function () { notifToggle.disabled = false; });
+  });
+})();
+</script>
+</body>
+</html>
