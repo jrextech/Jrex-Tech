@@ -1,0 +1,6 @@
+node_modules/
+.env
+data/jrex.sqlite3
+data/jrex.sqlite3-shm
+data/jrex.sqlite3-wal
+npm-debug.log

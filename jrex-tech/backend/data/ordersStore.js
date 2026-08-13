@@ -1,0 +1,3 @@
+// Service/website request store (SQLite-backed — see db.js for schema).
+const { createStore } = require("./createStore");
+module.exports = createStore("orders");

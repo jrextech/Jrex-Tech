@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — JREX Tech</title>
+<meta name="description" content="Create a free JREX Tech account to request a website, software, or branding project and track it through to delivery.">
+<link rel="icon" href="images/jrex.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-row">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">JX</span>
+      <span>
+        <span class="brand-text"><span class="jrex">JREX</span> <span class="tech">Tech</span></span>
+        <span class="brand-tagline">Innovation Beyond Expectations</span>
+      </span>
+    </a>
+    <div class="nav-quick">
+      <a href="login.html" class="quick-login" data-auth="guest">Log In</a>
+      <a href="signup.html" class="quick-signup" data-auth="guest">Sign Up</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false"><span></span></button>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-divider"></li>
+        <li data-auth="user"><a href="dashboard.html">Dashboard</a></li>
+        <li data-auth="admin"><a href="admin.html">Admin</a></li>
+        <li data-auth="user"><a href="#" data-logout>Log Out</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="auth-shell">
+
+    <div class="auth-art">
+      <div>
+        <div class="eyebrow" style="color:var(--blue-400)">Start Your Project</div>
+        <h2 style="color:#fff; font-size:28px; max-width:22ch">Create an account to request your website, software, or brand.</h2>
+      </div>
+      <div>
+        <div class="art-photo">
+          <img src="images/innovation.jpg" alt="Team collaborating on a technology project">
+        </div>
+        <blockquote>
+          "Setting up an account took two minutes — our first project brief was in their hands the same day."
+          <cite>— A JREX Tech client</cite>
+        </blockquote>
+      </div>
+    </div>
+
+    <div class="auth-panel">
+      <div class="auth-card">
+        <h1>Create your account</h1>
+        <p>Free to join. Use it to request services and track progress in one place.</p>
+
+        <form id="signup-form" novalidate>
+          <div class="field">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Doe" required autocomplete="name">
+            <p class="error">Please enter your full name.</p>
+          </div>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email">
+            <p class="error">Please enter a valid email address.</p>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="••••••••" required autocomplete="new-password" minlength="8">
+            <p class="field-hint">At least 8 characters.</p>
+            <p class="error">Password must be at least 8 characters.</p>
+          </div>
+
+          <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+
+          <button type="submit" class="btn btn-primary">Create Account</button>
+        </form>
+
+        <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script>
+(function () {
+  "use strict";
+  var form = document.getElementById("signup-form");
+  var statusBox = document.getElementById("form-status");
+  var submitBtn = form.querySelector('button[type="submit"]');
+
+  if (window.JrexAuth && window.JrexAuth.isLoggedIn()) {
+    window.location.href = "dashboard.html";
+  }
+
+  var redirect = new URLSearchParams(window.location.search).get("redirect");
+
+  function fieldOf(input) { return input.closest(".field"); }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    statusBox.className = "form-status";
+
+    var name = form.name.value.trim();
+    var email = form.email.value.trim();
+    var password = form.password.value;
+
+    var valid = true;
+    if (name.length < 2) { fieldOf(form.name).classList.add("invalid"); valid = false; } else { fieldOf(form.name).classList.remove("invalid"); }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { fieldOf(form.email).classList.add("invalid"); valid = false; } else { fieldOf(form.email).classList.remove("invalid"); }
+    if (password.length < 8) { fieldOf(form.password).classList.add("invalid"); valid = false; } else { fieldOf(form.password).classList.remove("invalid"); }
+    if (!valid) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Creating account…";
+
+    fetch(window.JrexAuth.API_BASE + "/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name, email: email, password: password })
+    })
+      .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+      .then(function (result) {
+        if (result.ok) {
+          window.JrexAuth.setSession(result.data.token, result.data.user);
+          statusBox.className = "form-status show ok";
+          statusBox.textContent = "Account created! Redirecting…";
+          window.location.href = redirect || "dashboard.html";
+        } else {
+          statusBox.className = "form-status show err";
+          statusBox.textContent = (result.data && result.data.error) || "Sign up failed. Please try again.";
+        }
+      })
+      .catch(function () {
+        statusBox.className = "form-status show err";
+        statusBox.textContent = "We couldn't reach the server. Please try again shortly.";
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Create Account";
+      });
+  });
+})();
+</script>
+</body>
+</html>
